@@ -103,7 +103,11 @@ class Charges
 
     public function webhooks(): Webhooks
     {
-        return new Webhooks($this->client, $this->token, $this->basePath('boletos'));
+        $webhooks = new Webhooks($this->client, $this->token, $this->basePath('boletos'));
+        if ($this->hasCheckingAccount()) {
+            $webhooks->setCheckingAccount($this->checkingAccount);
+        }
+        return $webhooks;
     }
 
     private function basePath(string $path): string
