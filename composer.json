@@ -33,5 +33,9 @@
     "fakerphp/faker": "^1.23",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^11.0"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "analyse": "phpstan analyse"
   }
 }
