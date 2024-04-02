@@ -4,8 +4,8 @@ namespace Samfelgar\Inter\Tests\Charges\Models;
 
 use Faker\Factory;
 use PHPUnit\Framework\Attributes\Test;
-use Samfelgar\Inter\Charges\Models\Payer;
 use PHPUnit\Framework\TestCase;
+use Samfelgar\Inter\Charges\Models\Payer;
 use Samfelgar\Inter\Charges\Models\PersonType;
 use Samfelgar\Inter\Charges\Models\Phone;
 
