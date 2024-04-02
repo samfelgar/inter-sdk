@@ -6,6 +6,7 @@ namespace Samfelgar\Inter\Charges;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
 use Samfelgar\Inter\Charges\Models\Charge;
 use Samfelgar\Inter\Charges\Requests\CancelChargeRequest;
 use Samfelgar\Inter\Charges\Requests\CreateChargeRequest;
@@ -13,19 +14,20 @@ use Samfelgar\Inter\Charges\Requests\GetChargesRequest;
 use Samfelgar\Inter\Charges\Responses\CreateChargeResponse;
 use Samfelgar\Inter\Charges\Responses\GetChargesResponse;
 use Samfelgar\Inter\Charges\Responses\GetChargesSummaryResponse;
-use Samfelgar\Inter\Common\CheckingAccountAware;
 use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
 use Samfelgar\Inter\Webhooks\Webhooks;
 
 class Charges
 {
-    use CheckingAccountAware;
+    use TokenAndCheckingAccountAware;
 
     public function __construct(
         private readonly Client $client,
-        private readonly string $token,
+        string $token,
         ?string $checkingAccount = null,
     ) {
+        $this->setToken($token);
         $this->setCheckingAccount($checkingAccount);
     }
 
@@ -35,8 +37,8 @@ class Charges
     public function create(CreateChargeRequest $request): CreateChargeResponse
     {
         $response = $this->client->post($this->basePath('boletos'), [
-            'headers' => $this->defaultHeaders(),
-            'json' => $request,
+            RequestOptions::HEADERS => $this->defaultHeaders(),
+            RequestOptions::JSON => $request,
         ]);
         return CreateChargeResponse::fromResponse($response);
     }
@@ -47,8 +49,8 @@ class Charges
     public function getCharges(GetChargesRequest $request): GetChargesResponse
     {
         $response = $this->client->get($this->basePath('boletos'), [
-            'headers' => $this->defaultHeaders(),
-            'query' => $request->toArray(),
+            RequestOptions::HEADERS => $this->defaultHeaders(),
+            RequestOptions::QUERY => $request->toArray(),
         ]);
         return GetChargesResponse::fromResponse($response);
     }
@@ -59,8 +61,8 @@ class Charges
     public function getChargesSummary(GetChargesRequest $request): GetChargesSummaryResponse
     {
         $response = $this->client->get($this->basePath('boletos/sumario'), [
-            'headers' => $this->defaultHeaders(),
-            'query' => $request->toSummaryArray(),
+            RequestOptions::HEADERS => $this->defaultHeaders(),
+            RequestOptions::QUERY => $request->toSummaryArray(),
         ]);
         return GetChargesSummaryResponse::fromResponse($response);
     }
@@ -71,20 +73,20 @@ class Charges
     public function getDetailedCharge(string $ourNumber): Charge
     {
         $response = $this->client->get($this->basePath("boletos/{$ourNumber}"), [
-            'headers' => $this->defaultHeaders(),
+            RequestOptions::HEADERS => $this->defaultHeaders(),
         ]);
         return Charge::fromArray(ResponseUtils::responseToArray($response));
     }
 
     /**
-     * Retrieves the charge base64 pdf
+     * Retrieves the charge pdf as base64
      *
      * @throws GuzzleException
      */
     public function getChargePdf(string $ourNumber): string
     {
         $response = $this->client->get($this->basePath("boletos/{$ourNumber}/pdf"), [
-            'headers' => $this->defaultHeaders(),
+            RequestOptions::HEADERS => $this->defaultHeaders(),
         ]);
         $data = ResponseUtils::responseToArray($response);
         return $data['pdf'];
@@ -96,8 +98,8 @@ class Charges
     public function cancelCharge(CancelChargeRequest $request): void
     {
         $this->client->post($this->basePath("boletos/{$request->ourNumber}/cancelar"), [
-            'headers' => $this->defaultHeaders(),
-            'json' => $request,
+            RequestOptions::HEADERS => $this->defaultHeaders(),
+            RequestOptions::JSON => $request,
         ]);
     }
 
@@ -116,16 +118,5 @@ class Charges
             $path = '/' . $path;
         }
         return '/cobranca/v2' . $path;
-    }
-
-    private function defaultHeaders(): array
-    {
-        $headers = [
-            'authorization' => "Bearer {$this->token}"
-        ];
-        if ($this->hasCheckingAccount()) {
-            $headers['x-conta-corrente'] = $this->checkingAccount;
-        }
-        return $headers;
     }
 }
