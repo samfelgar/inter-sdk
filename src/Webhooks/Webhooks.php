@@ -6,22 +6,23 @@ namespace Samfelgar\Inter\Webhooks;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Samfelgar\Inter\Common\CheckingAccountAware;
+use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
 use Samfelgar\Inter\Webhooks\Requests\QueryCallbacksRequest;
 use Samfelgar\Inter\Webhooks\Responses\GetWebhookResponse;
 use Samfelgar\Inter\Webhooks\Responses\QueryCallbacksResponse;
 
 class Webhooks
 {
-    use CheckingAccountAware;
+    use TokenAndCheckingAccountAware;
 
     private readonly string $basePath;
 
     public function __construct(
         private readonly Client $client,
-        private readonly string $token,
+        string $token,
         string $basePath,
     ) {
+        $this->setToken($token);
         if (\str_ends_with('/', $basePath)) {
             $basePath = \rtrim($basePath, '/');
         }
@@ -56,6 +57,9 @@ class Webhooks
         return GetWebhookResponse::fromResponse($response);
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function delete(): void
     {
         $this->client->delete($this->basePath('webhook'), [
@@ -81,18 +85,5 @@ class Webhooks
             $path = '/' . $path;
         }
         return $this->basePath . $path;
-    }
-
-    private function defaultHeaders(): array
-    {
-        $headers = [
-            'authorization' => "Bearer {$this->token}",
-        ];
-
-        if ($this->hasCheckingAccount()) {
-            $headers['x-conta-correte'] = $this->checkingAccount;
-        }
-
-        return $headers;
     }
 }
