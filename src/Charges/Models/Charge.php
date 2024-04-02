@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Samfelgar\Inter\Charges\Models;
 
-use Psr\Http\Message\ResponseInterface;
-
 class Charge
 {
     public function __construct(
@@ -46,7 +44,7 @@ class Charge
             $data['pagador']['numero'],
             $data['pagador']['complemento'],
             $data['pagador']['bairro'],
-            $data['pagador']['city'],
+            $data['pagador']['cidade'],
             $data['pagador']['uf'],
             $data['pagador']['cep'],
             $data['pagador']['email'],
