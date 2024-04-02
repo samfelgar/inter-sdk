@@ -12,6 +12,7 @@ use Psr\Log\LoggerInterface;
 use Samfelgar\Inter\Charges\Charges;
 use Samfelgar\Inter\Common\HasToken;
 use Samfelgar\Inter\OAuth\Authentication;
+use Samfelgar\Inter\PixCharges\PixCharges;
 
 class Inter
 {
@@ -48,5 +49,11 @@ class Inter
     {
         $this->assertToken();
         return new Charges($this->client, $this->token);
+    }
+
+    public function pixCharges(): PixCharges
+    {
+        $this->assertToken();
+        return new PixCharges($this->client, $this->token);
     }
 }
