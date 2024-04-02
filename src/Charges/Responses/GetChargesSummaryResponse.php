@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Samfelgar\Inter\Charges\Responses;
 
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Samfelgar\Inter\Common\ResponseUtils;
 
 readonly class GetChargesSummaryResponse
@@ -18,7 +18,7 @@ readonly class GetChargesSummaryResponse
     ) {
     }
 
-    public static function fromResponse(Response $response): GetChargesSummaryResponse
+    public static function fromResponse(ResponseInterface $response): GetChargesSummaryResponse
     {
         $data = ResponseUtils::responseToArray($response);
         return new GetChargesSummaryResponse(

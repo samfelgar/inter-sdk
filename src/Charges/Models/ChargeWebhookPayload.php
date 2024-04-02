@@ -21,6 +21,9 @@ readonly class ChargeWebhookPayload
     ) {
     }
 
+    /**
+     * @param array<string, string|float|int> $data
+     */
     public static function fromArray(array $data): ChargeWebhookPayload
     {
         return new ChargeWebhookPayload(

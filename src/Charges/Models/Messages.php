@@ -6,6 +6,9 @@ namespace Samfelgar\Inter\Charges\Models;
 
 class Messages
 {
+    /**
+     * @var array<int, string>
+     */
     private array $lines = [];
 
     public function addLine(int $line, string $message): void
@@ -24,6 +27,9 @@ class Messages
         return $this->lines[$line - 1] ?? null;
     }
 
+    /**
+     * @return string[]
+     */
     public function getLines(): array
     {
         return $this->lines;

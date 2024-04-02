@@ -12,6 +12,9 @@ readonly class CancelChargeRequest implements \JsonSerializable
     ) {
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function jsonSerialize(): array
     {
         return [

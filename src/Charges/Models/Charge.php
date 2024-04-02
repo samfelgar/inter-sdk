@@ -6,6 +6,9 @@ namespace Samfelgar\Inter\Charges\Models;
 
 class Charge
 {
+    /**
+     * @param Discount[] $discounts
+     */
     public function __construct(
         public readonly string $recipientName,
         public readonly string $recipientCpfCnpj,
@@ -33,6 +36,9 @@ class Charge
     ) {
     }
 
+    /**
+     * @param array<string, string|int|float|array<string, string|int|float>> $data
+     */
     public static function fromArray(array $data): Charge
     {
         $phone = isset($data['pagador']['ddd'], $data['pagador']['telefone']) ? new Phone($data['pagador']['ddd'], $data['pagador']['telefone']) : null;
