@@ -32,7 +32,9 @@ readonly class GetPixChargesRequest
             'dataFinal' => $this->endDate->format('Y-m-d'),
             'filtrarDataPor' => $this->dateReference->value,
             'situacao' => $this->situation->value,
-            'paginacao.itensPorPagina' => $this->perPage,
+            'paginacao' => [
+                'itensPorPagina' => $this->perPage,
+            ],
             'ordenarPor' => $this->orderBy->value,
             'tipoOrdenacao' => $this->orderType->value,
         ];
@@ -54,7 +56,7 @@ readonly class GetPixChargesRequest
         }
 
         if ($this->page > 1) {
-            $data['paginacao.paginaAtual'] = $this->page;
+            $data['paginacao']['paginaAtual'] = $this->page;
         }
 
         return $data;
