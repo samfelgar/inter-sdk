@@ -10,6 +10,7 @@ use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
 use Samfelgar\Inter\Pix\Requests\CreateInstantPixRequest;
 use Samfelgar\Inter\Pix\Requests\UpdateInstantPixRequest;
 use Samfelgar\Inter\Pix\Responses\InstantPixResponse;
+use Samfelgar\Inter\Webhooks\Webhooks;
 use Webmozart\Assert\Assert;
 
 class Pix
@@ -72,5 +73,14 @@ class Pix
             'headers' => $this->defaultHeaders(),
         ]);
         return InstantPixResponse::fromResponse($response);
+    }
+
+    public function webhooks(string $pixKey): Webhooks
+    {
+        $webhooks = new Webhooks($this->client, $this->token, '/pix/v2', $pixKey);
+        if ($this->hasCheckingAccount()) {
+            $webhooks->setCheckingAccount($this->checkingAccount);
+        }
+        return $webhooks;
     }
 }

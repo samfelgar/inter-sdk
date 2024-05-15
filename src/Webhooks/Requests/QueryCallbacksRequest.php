@@ -12,6 +12,7 @@ readonly class QueryCallbacksRequest
         public int $page = 0,
         public int $length = 20,
         public ?string $ourNumber = null,
+        public ?string $txId = null,
     ) {
     }
 
@@ -26,6 +27,10 @@ readonly class QueryCallbacksRequest
 
         if ($this->ourNumber !== null) {
             $data['nossoNumero'] = $this->ourNumber;
+        }
+
+        if ($this->txId !== null) {
+            $data['txid'] = $this->txId;
         }
 
         return $data;

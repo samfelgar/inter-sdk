@@ -21,6 +21,7 @@ class Webhooks
         private readonly Client $client,
         string $token,
         string $basePath,
+        private readonly ?string $pixKey = null,
     ) {
         $this->setToken($token);
         if (\str_ends_with('/', $basePath)) {
@@ -38,7 +39,7 @@ class Webhooks
             throw new \InvalidArgumentException('The url must start with https://');
         }
 
-        $this->client->put($this->basePath('webhook'), [
+        $this->client->put($this->pathWithPixKey(), [
             'headers' => $this->defaultHeaders(),
             'json' => [
                 'webhookUrl' => $url,
@@ -51,7 +52,7 @@ class Webhooks
      */
     public function getWebhook(): GetWebhookResponse
     {
-        $response = $this->client->get($this->basePath('webhook'), [
+        $response = $this->client->get($this->pathWithPixKey(), [
             'headers' => $this->defaultHeaders(),
         ]);
         return GetWebhookResponse::fromResponse($response);
@@ -62,7 +63,7 @@ class Webhooks
      */
     public function delete(): void
     {
-        $this->client->delete($this->basePath('webhook'), [
+        $this->client->delete($this->pathWithPixKey(), [
             'headers' => $this->defaultHeaders(),
         ]);
     }
@@ -77,6 +78,15 @@ class Webhooks
             'query' => $request->toArray(),
         ]);
         return QueryCallbacksResponse::fromResponse($response);
+    }
+
+    private function pathWithPixKey(): string
+    {
+        $path = 'webhook';
+        if ($this->pixKey !== null) {
+            $path .= '/' . $this->pixKey;
+        }
+        return $this->basePath($path);
     }
 
     private function basePath(string $path): string
