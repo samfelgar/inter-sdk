@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Samfelgar\Inter\Pix\Models\Webhook;
 
-use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Psr\Http\Message\RequestInterface;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Webmozart\Assert\Assert;
 
 readonly class PixPayload
@@ -55,9 +55,9 @@ readonly class PixPayload
     /**
      * @return PixPayload|PixPayload[]
      */
-    public static function fromResponse(ResponseInterface $response): PixPayload|array
+    public static function fromRequest(RequestInterface $request): PixPayload|array
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($request);
         if (\array_is_list($data)) {
             return \array_map(self::fromArray(...), $data);
         }

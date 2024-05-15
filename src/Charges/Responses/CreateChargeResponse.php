@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Samfelgar\Inter\Charges\Responses;
 
 use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 
 readonly class CreateChargeResponse
 {
@@ -19,7 +19,7 @@ readonly class CreateChargeResponse
 
     public static function fromResponse(ResponseInterface $response): CreateChargeResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
 
         return new CreateChargeResponse(
             $data['seuNumero'],

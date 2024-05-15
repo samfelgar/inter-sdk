@@ -7,7 +7,7 @@ namespace Samfelgar\Inter\PixCharges;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
 use Samfelgar\Inter\PixCharges\Requests\CreatePixChargeRequest;
 use Samfelgar\Inter\PixCharges\Requests\GetPixChargesRequest;
@@ -39,7 +39,7 @@ class PixCharges
             RequestOptions::HEADERS => $this->defaultHeaders(),
             RequestOptions::JSON => $request,
         ]);
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return $data['codigoSolicitacao'];
     }
 
@@ -65,7 +65,7 @@ class PixCharges
             RequestOptions::HEADERS => $this->defaultHeaders(),
             RequestOptions::QUERY => $request->toSummaryArray(),
         ]);
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return \array_map(SummaryItem::fromArray(...), $data);
     }
 
@@ -90,7 +90,7 @@ class PixCharges
         $response = $this->client->get($this->basePath("cobrancas/{$chargeId}/pdf"), [
             RequestOptions::HEADERS => $this->defaultHeaders(),
         ]);
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return $data['pdf'];
     }
 

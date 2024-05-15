@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Samfelgar\Inter\Charges\Models;
 
-use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Psr\Http\Message\RequestInterface;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 
 readonly class ChargeWebhookPayload
 {
@@ -41,9 +41,9 @@ readonly class ChargeWebhookPayload
     /**
      * @return ChargeWebhookPayload|ChargeWebhookPayload[]
      */
-    public static function fromResponse(ResponseInterface $response): ChargeWebhookPayload|array
+    public static function fromRequest(RequestInterface $request): ChargeWebhookPayload|array
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($request);
         if (\array_is_list($data)) {
             return \array_map(self::fromArray(...), $data);
         }

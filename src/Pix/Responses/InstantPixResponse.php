@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Samfelgar\Inter\Pix\Responses;
 
 use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Samfelgar\Inter\Pix\Models\AdditionalInformation;
 use Samfelgar\Inter\Pix\Models\ChargeType;
 use Samfelgar\Inter\Pix\Models\Payer;
@@ -79,7 +79,7 @@ readonly class InstantPixResponse
 
     public static function fromResponse(ResponseInterface $response): InstantPixResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return self::fromArray($data);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Samfelgar\Inter\Tests\Charges\Models;
 
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Samfelgar\Inter\Charges\Models\ChargeWebhookPayload;
@@ -41,8 +41,8 @@ class ChargeWebhookPayloadTest extends TestCase
             "linhaDigitavel" => "00000000000000000000000000000000000000000000000"
         ];
 
-        $response = new Response(body: \json_encode($data));
-        $payload = ChargeWebhookPayload::fromResponse($response);
+        $request = new Request('POST', 'https://example.com.br', body: \json_encode($data));
+        $payload = ChargeWebhookPayload::fromRequest($request);
         $this->assertInstanceOf(ChargeWebhookPayload::class, $payload);
     }
 
@@ -72,8 +72,8 @@ class ChargeWebhookPayloadTest extends TestCase
             ]
         ];
 
-        $response = new Response(body: \json_encode($data));
-        $payloads = ChargeWebhookPayload::fromResponse($response);
+        $request = new Request('POST', 'https://example.com.br', body: \json_encode($data));
+        $payloads = ChargeWebhookPayload::fromRequest($request);
         $this->assertIsArray($payloads);
         foreach ($payloads as $payload) {
             $this->assertInstanceOf(ChargeWebhookPayload::class, $payload);

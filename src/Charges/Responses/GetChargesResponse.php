@@ -6,7 +6,7 @@ namespace Samfelgar\Inter\Charges\Responses;
 
 use Psr\Http\Message\ResponseInterface;
 use Samfelgar\Inter\Charges\Models\Charge;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Webmozart\Assert\Assert;
 
 readonly class GetChargesResponse
@@ -28,7 +28,7 @@ readonly class GetChargesResponse
 
     public static function fromResponse(ResponseInterface $response): GetChargesResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
 
         return new GetChargesResponse(
             $data['totalPages'],

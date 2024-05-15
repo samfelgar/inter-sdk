@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Samfelgar\Inter\PixCharges\Responses;
 
 use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Samfelgar\Inter\PixCharges\Models\Charge;
 use Samfelgar\Inter\PixCharges\Models\Pix;
 use Samfelgar\Inter\PixCharges\Models\Slip;
@@ -29,7 +29,7 @@ readonly class GetPixChargeResponse
 
     public static function fromResponse(ResponseInterface $response): GetPixChargeResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return self::fromArray($data);
     }
 }

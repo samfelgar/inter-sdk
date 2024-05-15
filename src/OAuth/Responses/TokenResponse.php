@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Samfelgar\Inter\OAuth\Responses;
 
 use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 
 readonly class TokenResponse
 {
@@ -19,7 +19,7 @@ readonly class TokenResponse
 
     public static function fromResponse(ResponseInterface $response): TokenResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return new TokenResponse(
             $data['access_token'],
             $data['token_type'],

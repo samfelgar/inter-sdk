@@ -14,7 +14,7 @@ use Samfelgar\Inter\Charges\Requests\GetChargesRequest;
 use Samfelgar\Inter\Charges\Responses\CreateChargeResponse;
 use Samfelgar\Inter\Charges\Responses\GetChargesResponse;
 use Samfelgar\Inter\Charges\Responses\GetChargesSummaryResponse;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
 use Samfelgar\Inter\Webhooks\Webhooks;
 
@@ -75,7 +75,7 @@ class Charges
         $response = $this->client->get($this->basePath("boletos/{$ourNumber}"), [
             RequestOptions::HEADERS => $this->defaultHeaders(),
         ]);
-        return Charge::fromArray(ResponseUtils::responseToArray($response));
+        return Charge::fromArray(PsrMessageUtils::bodyToArray($response));
     }
 
     /**
@@ -88,7 +88,7 @@ class Charges
         $response = $this->client->get($this->basePath("boletos/{$ourNumber}/pdf"), [
             RequestOptions::HEADERS => $this->defaultHeaders(),
         ]);
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
         return $data['pdf'];
     }
 

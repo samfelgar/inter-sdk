@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Samfelgar\Inter\PixCharges\Responses;
 
 use Psr\Http\Message\ResponseInterface;
-use Samfelgar\Inter\Common\ResponseUtils;
+use Samfelgar\Inter\Common\PsrMessageUtils;
 use Webmozart\Assert\Assert;
 
 readonly class GetPixChargesResponse
@@ -27,7 +27,7 @@ readonly class GetPixChargesResponse
 
     public static function fromResponse(ResponseInterface $response): GetPixChargesResponse
     {
-        $data = ResponseUtils::responseToArray($response);
+        $data = PsrMessageUtils::bodyToArray($response);
 
         return new GetPixChargesResponse(
             $data['totalPaginas'],
