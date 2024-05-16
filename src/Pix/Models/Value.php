@@ -23,7 +23,7 @@ readonly class Value implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'original' => (string) $this->amount,
+            'original' => \sprintf('%.2f', $this->amount),
             'modalidadeAlteracao' => $this->canChange ? 0 : 1
         ];
     }
