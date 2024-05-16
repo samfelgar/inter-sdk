@@ -51,7 +51,7 @@ readonly class CreateInstantPixRequest implements \JsonSerializable
             ];
 
             $documentKey = $this->payer->hasCpf() ? 'cpf' : 'cnpj';
-            $data[$documentKey] = $this->payer->cpfCnpj;
+            $data['devedor'][$documentKey] = $this->payer->cpfCnpj;
         }
 
         if ($this->additionalInformation !== []) {
