@@ -34,8 +34,8 @@ readonly class PixPayload
                 $payload['id'],
                 $payload['rtrId'],
                 (float) $payload['valor'],
-                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $payload['horario']['solicitacao']),
-                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $payload['horario']['liquidacao']),
+                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $payload['horario']['solicitacao']),
+                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $payload['horario']['liquidacao']),
                 ReturnStatus::from($payload['status']),
                 $payload['motivo'] ?? null
             );
@@ -46,7 +46,7 @@ readonly class PixPayload
             $data['txid'] ?? null,
             (float) $data['valor'],
             $data['chave'] ?? null,
-            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['horario']),
+            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['horario']),
             $data['infoPagador'] ?? null,
             $returns
         );

@@ -19,8 +19,8 @@ readonly class QueryCallbacksRequest
     public function toArray(): array
     {
         $data = [
-            'dataHoraInicio' => $this->startDate->format(\DateTimeInterface::RFC3339),
-            'dataHoraFim' => $this->startDate->format(\DateTimeInterface::RFC3339),
+            'dataHoraInicio' => $this->startDate->format(\DateTimeInterface::RFC3339_EXTENDED),
+            'dataHoraFim' => $this->startDate->format(\DateTimeInterface::RFC3339_EXTENDED),
             'pagina' => $this->page,
             'tamanhoPagina' => $this->length,
         ];

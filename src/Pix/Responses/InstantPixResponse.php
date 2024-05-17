@@ -47,13 +47,13 @@ readonly class InstantPixResponse
                 $data['loc']['id'],
                 $data['loc']['location'] ?? null,
                 ChargeType::from($data['loc']['tipoCob']),
-                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['loc']['criacao'])
+                \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['loc']['criacao'])
             );
         }
 
         $createdAt = null;
         if (isset($data['calendario']['criacao'])) {
-            $createdAt = \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['calendario']['criacao']);
+            $createdAt = \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['calendario']['criacao']);
         }
 
         $additionalInformation = \array_map(function (array $info): AdditionalInformation {

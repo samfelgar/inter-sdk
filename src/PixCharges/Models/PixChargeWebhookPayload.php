@@ -30,7 +30,7 @@ readonly class PixChargeWebhookPayload
             $data['codigoSolicitacao'],
             $data['seuNumero'],
             Situation::from($data['situacao']),
-            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['dataHoraSituacao']),
+            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['dataHoraSituacao']),
             (float) $data['valorTotalRecebido'],
             ChargeReceivementOrigin::from($data['origemRecebimento']),
             $data['nossoNumero'],

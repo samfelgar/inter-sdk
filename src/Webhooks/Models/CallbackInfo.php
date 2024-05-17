@@ -26,7 +26,7 @@ readonly class CallbackInfo
             $data['webhookUrl'],
             $data['payload'],
             $data['numeroTentativa'],
-            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['dataHoraDisparo']),
+            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['dataHoraDisparo']),
             (bool) $data['sucesso'],
             (int) $data['httpStatus'],
             $data['mensagemErro'] ?? null,

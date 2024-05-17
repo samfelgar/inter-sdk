@@ -21,7 +21,7 @@ readonly class GetWebhookResponse
         $data = PsrMessageUtils::bodyToArray($response);
         return new GetWebhookResponse(
             $data['webhookUrl'],
-            \DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339, $data['criacao'])
+            \DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, $data['criacao'])
         );
     }
 }

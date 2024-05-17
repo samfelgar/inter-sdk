@@ -22,7 +22,7 @@ readonly class Localization
             $data['id'],
             $data['location'] ?? null,
             ChargeType::from($data['tipoCob']),
-            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339, $data['criacao']),
+            \DateTimeImmutable::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $data['criacao']),
         );
     }
 }
