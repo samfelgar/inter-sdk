@@ -9,6 +9,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Log\LoggerInterface;
+use Samfelgar\Inter\Banking\Banking;
 use Samfelgar\Inter\Charges\Charges;
 use Samfelgar\Inter\Common\HasToken;
 use Samfelgar\Inter\OAuth\Authentication;
@@ -62,5 +63,11 @@ class Inter
     {
         $this->assertToken();
         return new Pix($this->client, $this->token);
+    }
+
+    public function banking(): Banking
+    {
+        $this->assertToken();
+        return new Banking($this->client, $this->token);
     }
 }
