@@ -6,7 +6,7 @@ namespace Samfelgar\Inter\Banking\Models;
 
 enum PaymentStatus: string
 {
-    case Approving = 'APROVACAO';
-    case Processed = 'PROCESSADO';
-    case Scheduled = 'AGENDADO';
+    case Processed = 'EFETIVADO';
+    case Pending = 'NAO_EFETIVADO';
+    case Error = 'ERRO';
 }
