@@ -38,8 +38,15 @@ readonly class PaymentPixWebhookPayload
         );
     }
 
-    public static function fromRequest(RequestInterface $request): PaymentPixWebhookPayload
+    /**
+     * @return PaymentPixWebhookPayload|PaymentPixWebhookPayload[]
+     */
+    public static function fromRequest(RequestInterface $request): PaymentPixWebhookPayload|array
     {
-        return self::fromArray(PsrMessageUtils::bodyToArray($request));
+        $data = PsrMessageUtils::bodyToArray($request);
+        if (\array_is_list($data)) {
+            return \array_map(self::fromArray(...), $data);
+        }
+        return self::fromArray($data);
     }
 }
