@@ -8,9 +8,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Ramsey\Uuid\UuidInterface;
+use Samfelgar\Inter\Banking\Models\Webhook\WebhookType;
 use Samfelgar\Inter\Banking\Requests\CreatePixPaymentRequest;
 use Samfelgar\Inter\Banking\Responses\CreatePixPaymentResponse;
 use Samfelgar\Inter\Common\TokenAndCheckingAccountAware;
+use Samfelgar\Inter\Webhooks\Webhooks;
 
 class Banking
 {
@@ -38,5 +40,25 @@ class Banking
             RequestOptions::JSON => $request,
         ]);
         return CreatePixPaymentResponse::fromResponse($response);
+    }
+
+    public function webhooks(WebhookType $type): Webhooks
+    {
+        $webhookType = match ($type) {
+            WebhookType::PixPayment => 'pix-pagamento',
+            WebhookType::SlipPayment => 'boleto-pagamento',
+        };
+
+        $webhooks = new Webhooks(
+            $this->client,
+            $this->token,
+            '/banking/v2',
+            $webhookType,
+            'webhooks'
+        );
+        if ($this->hasCheckingAccount()) {
+            $webhooks->setCheckingAccount($this->checkingAccount);
+        }
+        return $webhooks;
     }
 }
