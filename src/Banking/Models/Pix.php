@@ -56,7 +56,7 @@ class Pix
 
     private function validateEvp(string $key): string
     {
-        Assert::length(36, $key);
+        Assert::length($key, 36);
         return $key;
     }
 }
