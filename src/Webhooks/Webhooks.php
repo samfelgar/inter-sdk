@@ -25,7 +25,7 @@ class Webhooks
         private readonly ?string $pathComplement = null,
         string $webhookPathFragment = 'webhook',
     ) {
-        $this->webhookPathFragment = \preg_replace('/[\\\/]/', '', $webhookPathFragment);
+        $this->webhookPathFragment = \preg_replace('#[\\\/]#', '', $webhookPathFragment);
         $this->setToken($token);
         if (\str_ends_with('/', $basePath)) {
             $basePath = \rtrim($basePath, '/');
