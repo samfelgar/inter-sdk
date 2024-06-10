@@ -114,7 +114,7 @@ class Charges
 
     private function basePath(string $path): string
     {
-        if (!\str_starts_with('/', $path)) {
+        if (!\str_starts_with($path, '/')) {
             $path = '/' . $path;
         }
         return '/cobranca/v2' . $path;

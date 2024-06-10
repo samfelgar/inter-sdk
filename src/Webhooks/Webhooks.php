@@ -38,7 +38,7 @@ class Webhooks
      */
     public function create(string $url): void
     {
-        if (!\str_starts_with('https://', $url)) {
+        if (!\str_starts_with($url, 'https://')) {
             throw new \InvalidArgumentException('The url must start with https://');
         }
 
@@ -95,7 +95,7 @@ class Webhooks
 
     private function basePath(string $path): string
     {
-        if (!\str_starts_with('/', $path)) {
+        if (!\str_starts_with($path, '/')) {
             $path = '/' . $path;
         }
         return $this->basePath . $path;
