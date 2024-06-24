@@ -58,6 +58,11 @@ readonly class PixPayload
     public static function fromRequest(RequestInterface $request): PixPayload|array
     {
         $data = PsrMessageUtils::bodyToArray($request);
+
+        if (\array_key_exists('pix', $data)) {
+            $data = $data['pix'];
+        }
+
         if (\array_is_list($data)) {
             return \array_map(self::fromArray(...), $data);
         }
